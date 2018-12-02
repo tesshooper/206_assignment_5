@@ -47,7 +47,7 @@ b. Question: How does enrollment in regards to gender change within these catego
 
 ```{r, echo=FALSE, message = FALSE}
 
-
+grad_trends <- grad_enroll
 
 
 ```
