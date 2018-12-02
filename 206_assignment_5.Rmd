@@ -57,7 +57,147 @@ grad_trends <- grad_enroll
 
 ```
 
-Part 2. Shifts in female PhD recipients by field (1985, 2000, and 2015). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##Part 2. Shifts in female PhD recipients by field (1985, 2000, and 2015). 
 
 a. Describe if and how there was a shift in PhDs awarded to females in Physical and Earth Sciences, Engineering, Education,
 and Humanities & Arts in 1985, 2000, and 2015. 
@@ -68,6 +208,16 @@ c. Describe in text.
 
 #Note: several ways to interpret this question: decide which you think is/are most interesting. state which you are asking/answering in your report.
 
+```{r, echo=FALSE, message = FALSE}
+
+#Select and filter for just female PhDs in P+E Sciences, Engineering, Ed, and Humanities for 1985, 2000 + 2015
+
+fem_phds <- phd_field  %>% 
+  select(field_sex, `1985_N`)
+ # select(1985_N, 1985_P, 2000_N, 2000_P, 2015_N, 2015_P)
+
+
+```
 
 
 
