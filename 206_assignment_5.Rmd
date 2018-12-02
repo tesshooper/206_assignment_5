@@ -25,6 +25,7 @@ library(effsize)
 library(vcdExtra)
 library(dplyr)
 library(car)
+library(stargazer)
 
 grad_enroll <- read_csv("grad_enroll.csv")
 median_salary <- read_csv("median_salary_doc.csv")
@@ -40,35 +41,73 @@ faculty <- read_csv("faculty_salary.csv")
 
 Part 1: Male and female graduate enrollment (1967 - 2015)
 
-## Compare trends in total graduate enrollment for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
+## Compare trends in total graduate enrollment for males and females (use Totals) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
 
 a. Exploratory Data Analysis
 - Summary data table with graduate enrollment for males and females, part-time/full-time, private/public universites
 - Scatter plots for full-time/part-time and gender, private/public universities and gender 
-- Regression line for males and females separately, then put together on the same graph (we need to do a regression because we need the line of best fit to find residuals in order to make sure our model fits our assumptions - residuals are any point that isn't on the line of best fit )
+- Regression line for males and females (we need to do a regression because we need the line of best fit to find residuals in order to make sure our model fits our assumptions - residuals are any point that isn't on the line of best fit )
 
 b. Question: How does enrollment in regards to gender change within these categories over time?
 
 
 ```{r, echo=FALSE, message = FALSE}
 
-# Read in grad_enrollment csv
+### Read in grad_enrollment csv
 
 grad_enroll <- read_csv("grad_enrollment.csv")
 
-# Exploratory scatter plot for total male and female grad enrollment by year
+### Exploratory scatter plot for total male and female grad enrollment by year
 
-grad_scatter <- ggplot(grad_enroll, aes(x = Year, y = Total_males)) +
+grad_scatter <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
   geom_point()+
-  geom_point(aes(x = Year, y = Total_females))
+  geom_point(aes(x = Year, y = Total_Females, col = "Females"))
 
-grad_scatter
+grad_scatter # The data looks like a linear model makes sense
 
-# Exploratory summary table 
 
-grad_table <- 
+### Conduct linear model 
 
-#geom_smooth (method = lm, se = F, aes (col = "Male Enrollment"))
+female_lm <- lm(grad_enroll$Total_Females ~ grad_enroll$Year)
+female_lm
+# intercept = -5895502 (y-intercept)
+# year = 30126 (slope)
+
+male_lm <- lm(grad_enroll$Total_Males ~ grad_enroll$Year)
+male_lm
+# intercept = -17112153 (y-intercept)
+# year = 9069 (slope)
+# This model shows us that for both males and females, enrollment is increasing each year
+
+plot(male_lm) # data is normally distributed
+plot(female_lm) # data is normally distributed 
+
+
+### Explore model fit and significance
+
+summary(female_lm) 
+# b = -5895502
+# m = 30126
+
+# y = 30126x - 5895502 (y = salmon imports)
+# Correlation coefficeint = 0.9827 (adjusted R-squared = 0.9823)
+# p-value = < 2.2e-16
+## Our R-squared value shows that there is strong model fit (meaning that using year against enrollment is a good idea)
+
+summary(male_lm)
+
+# Plot data with regression line on graph
+
+grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
+  geom_smooth(method = lm, se = F, aes(col = "Male")) +
+  geom_smooth(aes(x = Year, y = Total_Females, col = "Female"), method = lm, se = F) +
+  ylab("Enrollment") +
+  ggtitle("Changes in Graduate University Enrollment by Sex (1967-2015)")+
+  scale_color_discrete(name = "Gender")+
+  theme_classic ()
+
+grad_graph
+
 
 ```
 
@@ -507,6 +546,41 @@ B. Does median salary differ significantly between male and female PhD recipient
 
 #Explore the Data with histograms
 
+postdoc_hist_male <- ggplot(median_salary, aes(x= postdoc_male)) +
+  geom_histogram()
+
+postdoc_hist_male
+
+
+postdoc_hist_female <- ggplot(median_salary, aes(x = postdoc_female))+
+  geom_histogram()
+
+postdoc_hist_female
+
+postdoc_qq_male <- ggplot(median_salary, aes(sample = postdoc_male))+
+  geom_qq()
+
+postdoc_qq_male
+
+postdoc_qq_female <- ggplot(median_salary, aes(sample = postdoc_female)) +
+  geom_qq()
+
+postdoc_qq_female
+
+
+#no assupmtion of normality necessary, no outliers 
+
+
+#Mann-Whitney U test
+
+#H0: The medians will not be signifigantly different between male and female postdoc salaries
+
+#HA: The medians will be signifigantly different between male and female postdoc salaries 
+
+  
+  
+
+
 
 
 
@@ -519,3 +593,14 @@ B. Does median salary differ significantly between male and female PhD recipient
 ```
 
 
+
+
+
+
+
+
+
+
+##Part 4. Exploring academic salaries for professors in U.S. colleges.
+
+Develop a model describing faculty salary based on data for faculty sex, rank, years in current position, field, and number of years since doctoral degree was earned.
