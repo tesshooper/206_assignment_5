@@ -54,7 +54,7 @@ b. Question: How does enrollment in regards to gender change within these catego
 
 # Read in grad_enrollment csv
 
-grad_enroll <- read_csv()
+grad_enroll <- read_csv("grad_enrollment.csv")
 
 # Exploratory scatter plot for total male and female grad enrollment by year
 
