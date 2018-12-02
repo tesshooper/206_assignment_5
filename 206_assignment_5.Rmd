@@ -28,7 +28,7 @@ library(car)
 
 grad_enroll <- read_csv("grad_enroll.csv")
 median_salary <- read_csv("median_salary_doc.csv")
-phd_field <- read_csv("phd_field.csv")
+phd_field <- read_csv("phD_field.csv")
 faculty <- read_csv("faculty_salary.csv")
 
 ```
