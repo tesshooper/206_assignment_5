@@ -2,7 +2,9 @@
 title: "206_Assignment_5"
 author: "Tess Hooper"
 date: "12/2/2018"
-output: html_document
+output:
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -89,14 +91,23 @@ summary(female_lm)
 # b = -5895502
 # m = 30126
 
-# y = 30126x - 5895502 (y = salmon imports)
+# y = 30126x - 5895502 (y = grad enrollment)
 # Correlation coefficeint = 0.9827 (adjusted R-squared = 0.9823)
 # p-value = < 2.2e-16
 ## Our R-squared value shows that there is strong model fit (meaning that using year against enrollment is a good idea)
 
 summary(male_lm)
+# b = -17112153
+# m = 9069
 
-# Plot data with regression line on graph
+# y = 9069x - 17112153 (y = grad enrollment)
+# Correlation coefficient = 0.8545 (adjusted R-squared = 0.8514)
+# p-value = < 2.2e-16
+## Our R-squared value shows that there is strong model fit (meaning that using year against enrollment is a good idea)
+
+
+
+### Plot data with regression line on graph -- FINALIZE GRAPH FOR REPORT
 
 grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
   geom_smooth(method = lm, se = F, aes(col = "Male")) +
@@ -108,13 +119,40 @@ grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males"))
 
 grad_graph
 
+### Find correlation using Pearson's R
+
+female_pr <- cor.test(grad_enroll$Year, grad_enroll$Total_Females)
+female_pr
+
+# Pearson's R = 0.9913086
+# There is a strong/positive correlation between year and total female enrollment
+
+male_pr <- cor.test(grad_enroll$Year, grad_enroll$Total_Males)
+male_pr
+
+# Pearson's R = 0.9243741
+# There is a strong/positive correlation between year and total male enrollment
+
+
+### Explain your results in words:
+
+# FEMALES: Year significantly predicts total female enrollment in graduate level university (b = -5895502, t(47) = 2669, p < 2.2e-16) with a strong positive correlation between the two (Pearson’s r = 0.99). The overall model (total female enrollment = 30126*(year) - 5895501, in count of students) explains a significant amount of variance in total female graduate enrollment (F(1,47) = 2669, p < 2.2e-16, R2 = 0.98).
+
+# FEMALES SIMPLE: The model (total female enrollment = 30126*(year) - 5895501, in count of students) explains a significant amount of variance in total female graduate enrollment (F(1,47) = 2669, p < 2.2e-16, R2 = 0.98, Pearson's r = 0.99). 
+
+
+# MALES: Year significantly predicts total male enrollment in graduate level university (b = -17112153, t(47) = 276, p < 2.2e-16) with a strong positive correlation between the two (Pearson’s r = 0.92). The overall model (total male enrollment = 9069*(year) - 17112153, in count of students) explains a significant amount of variance in total male graduate enrollment (F(1,47) = 276, p < 2.2e-16, R2 = 0.8545).
+
+# MALES SIMPLE: The model (total male enrollment = 9069*(year) - 17112153, in count of students) explains a significant amount of variance in total male graduate enrollment (F(1,47) = 276, p < 2.2e-16, R2 = 0.8545, Pearson's r = 0.92).
+
+stargazer(female_lm, male_lm, type= "text", out="test.htm")
+
+
 
 ```
 
 
 <<<<<<< HEAD
-
-
 
 
 
@@ -262,17 +300,14 @@ and Humanities & Arts in 1985, 2000, and 2015.
 
 b. Describe in a graph or table.
 
-c. Describe in text. 
+c. Describe in text and statistically. 
 
 #Note: several ways to interpret this question: decide which you think is/are most interesting. state which you are asking/answering in your report.
 
 ```{r, echo=FALSE, message = FALSE}
-
-
-
 # Get the 4 fields and only females.
 
-subject_fphds <- phd_field  %>% 
+subject_fphds <- phd_field  %>%
   filter(field == "physical and earth sciences"| field == "Engineering"| field == "Education"| field == "Humanities and arts") %>% 
   filter(sex == "female") %>% 
   mutate(field = case_when(
@@ -282,22 +317,53 @@ subject_fphds <- phd_field  %>%
     field == "Humanities and arts" ~ "Arts & Humanities"
   ))
 
+subject_fphds
+
+peryear <- subject_fphds %>% 
+  
+
 #Line graph for female phDs across the fields
 
 females_phd_graph <- ggplot(subject_fphds, aes(x=year, y=number, group=field)) +
   geom_line(aes(color=field))+
   geom_point(aes(color=field))+
-  labs(x = "Year", y="Frequency (Female PhD Degrees)", title = "Number of PhD Degrees Awarded to Females by Field")+
+  labs(x = "Year", y="Frequency (Female-Awarded PhD Degrees)", title = "Number of PhD Degrees Awarded to Females by Field")+
   scale_x_continuous(breaks = c(1985, 2000, 2015))+
   theme_classic()
 
 females_phd_graph
 
+Year85 <- c(569, 198, 3491, 1392)
+Year00 <- c(1022, 838, 4179, 2672)
+Year15 <- c(1988, 2301, 3502, 2832)
+
+#85=5650
+#00=8711
+#15=10,623
+
+chi_females <- rbind(Year85, Year00, Year15)
+colnames(chi_females) <- c("Pysical Sciences", "Engineering", "Education", "Arts & Humanities")
 ```
 
-```{r, echo= FALSE, echo= FALSE}
 
 
+
+```{r}
+#1. Use chi-squared to explore changes in PhD proportions between fields over time. Are we testing ito see if there is a 
+
+#Null hypothesis (H0): There is no significant association between number of degrees awarded and field of study
+#Alternative hypothesis (Ha): There is a significant association between number of degrees awarded and field of study.
+
+x2_test <- chisq.test(chi_females)
+
+
+x2_test
+
+#interested in showing the changes in proportions of number of degrees between the categories across the 3 years. We also want to show total increase or decrease in number of PhD degrees per category.
+
+
+###p-value is <0.001. There IS a significant association between number of degrees awarded and field of study. 
+### x2(6)= 2073.3, p<0.001 
 
 ```
 
@@ -521,7 +587,7 @@ females_phd_graph
 
 
 
-
+   
 
 
 
