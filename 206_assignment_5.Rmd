@@ -44,7 +44,7 @@ Part 1: Male and female graduate enrollment (1967 - 2015)
 
 a. Exploratory Data Analysis
 - Summary data table with graduate enrollment for males and females, part-time/full-time, private/public universites
-- Histograms for full-time/part-time and gender, private/public universities and gender (and QQplots for each
+- Scatter plots for full-time/part-time and gender, private/public universities and gender 
 - Regression line for males and females separately, then put together on the same graph (we need to do a regression because we need the line of best fit to find residuals in order to make sure our model fits our assumptions - residuals are any point that isn't on the line of best fit )
 
 b. Question: How does enrollment in regards to gender change within these categories over time?
@@ -52,12 +52,24 @@ b. Question: How does enrollment in regards to gender change within these catego
 
 ```{r, echo=FALSE, message = FALSE}
 
-grad_trends <- grad_enroll
+# Exploratory scatter plot for total male and female grad enrollment by year
 
+grad_scatter <- ggplot(grad_enroll, aes(x = Year, y = Total_males)) +
+  geom_point()+
+  geom_point(aes(x = Year, y = Total_females))
+
+grad_scatter
+
+# Exploratory summary table 
+
+grad_table <- 
+
+#geom_smooth (method = lm, se = F, aes (col = "Male Enrollment"))
 
 ```
 
 
+<<<<<<< HEAD
 
 
 
@@ -198,6 +210,9 @@ grad_trends <- grad_enroll
 
 
 ##Part 2. Shifts in female PhD recipients by field (1985, 2000, and 2015). 
+=======
+Part 2. Shifts in female PhD recipients by field (1985, 2000, and 2015). 
+>>>>>>> b400d8b7001a71f3d0af765920a26a74c22bc5a0
 
 a. Describe if and how there was a shift in PhDs awarded to females in Physical and Earth Sciences, Engineering, Education,
 and Humanities & Arts in 1985, 2000, and 2015. 
