@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ####################################
 ####################################
 
-## Step 1. Load packages
+## Step 1. Load packages and read in data.
 ```{r, echo=FALSE, message=FALSE}
 
 library(tidyverse)
@@ -25,6 +25,11 @@ library(effsize)
 library(vcdExtra)
 library(dplyr)
 library(car)
+
+grad_enroll <- read_csv("grad_enroll.csv")
+median_salary <- read_csv("median_salary_doc.csv")
+phd_field <- read_csv("phd_field.csv")
+faculty <- read_csv("faculty_salary.csv")
 
 ```
 
@@ -61,7 +66,7 @@ b. Describe in a graph or table.
 
 c. Describe in text. 
 
-#Note: There are several ways that you can interpret this question. You are invited to decide which you think is/are most interesting. Just be really clear about what you are asking/answering in your report.
+#Note: several ways to interpret this question: decide which you think is/are most interesting. state which you are asking/answering in your report.
 
 
 
