@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ####################################
 ####################################
 
-## Step 1. Load packages
+## Step 1. Load packages and read in data
 ```{r, echo=FALSE, message=FALSE}
 
 library(tidyverse)
@@ -25,6 +25,11 @@ library(effsize)
 library(vcdExtra)
 library(dplyr)
 library(car)
+
+grad_enroll <- read_csv("grad_enroll.csv")
+faculty <- read_csv("faculty_salary.csv")
+med_salary <- read_csv("median_salary_doc.csv")
+phd_field <- read_csv("phd_field.csv")
 
 ```
 
@@ -48,7 +53,7 @@ b. Question: How does enrollment in regards to gender change within these catego
 ```{r, echo=FALSE, message = FALSE}
 
 
-grad_enroll 
+
 
 
 
