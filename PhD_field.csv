@@ -1,0 +1,25 @@
+field,sex,year,number,percent
+physical and earth sciences,male,1985,"2,922",0.84
+physical and earth sciences,female,1985,569,0.163
+Engineering,male,1985,"2,968",0.937
+Engineering,female,1985,198,0.063
+Education,male,1985,"3,242",0.482
+Education,female,1985,"3,491",0.518
+Humanities and arts,male,1985,"2,014",0.591
+Humanities and arts,female,1985,"1,392",0.409
+physical and earth sciences,male,2000,"3,041",0.748
+physical and earth sciences,female,2000,"1,022",0.252
+Engineering,male,2000,"4,459",0.842
+Engineering,female,2000,838,0.158
+Education,male,2000,"2,260",0.351
+Education,female,2000,"4,179",0.649
+Humanities and arts,male,2000,"2,786",0.51
+Humanities and arts,female,2000,"2,672",0.49
+physical and earth sciences,male,2015,"3,935",0.664
+physical and earth sciences,female,2015,"1,988",0.336
+Engineering,male,2015,"7,596",0.768
+Engineering,female,2015,"2,301",0.232
+Education,male,2015,"1,614",0.315
+Education,female,2015,"3,502",0.685
+Humanities and arts,male,2015,"2,767",0.494
+Humanities and arts,female,2015,"2,832",0.506
