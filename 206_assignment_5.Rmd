@@ -25,6 +25,7 @@ library(effsize)
 library(vcdExtra)
 library(dplyr)
 library(car)
+library(stargazer)
 
 grad_enroll <- read_csv("grad_enroll.csv")
 median_salary <- read_csv("median_salary_doc.csv")
@@ -40,7 +41,7 @@ faculty <- read_csv("faculty_salary.csv")
 
 Part 1: Male and female graduate enrollment (1967 - 2015)
 
-## Compare trends in total graduate enrollment for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
+## Compare trends in total graduate enrollment for males and females (use Totals) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
 
 a. Exploratory Data Analysis
 - Summary data table with graduate enrollment for males and females, part-time/full-time, private/public universites
@@ -52,19 +53,50 @@ b. Question: How does enrollment in regards to gender change within these catego
 
 ```{r, echo=FALSE, message = FALSE}
 
-# Read in grad_enrollment csv
+### Read in grad_enrollment csv
 
 grad_enroll <- read_csv("grad_enrollment.csv")
 
-# Exploratory scatter plot for total male and female grad enrollment by year
+### Exploratory scatter plot for total male and female grad enrollment by year
 
 grad_scatter <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
   geom_point()+
   geom_point(aes(x = Year, y = Total_Females, col = "Females"))
 
-grad_scatter
+grad_scatter # The data looks like a linear model makes sense
 
-# Plot data with regression line
+
+### Conduct linear model 
+
+female_lm <- lm(grad_enroll$Total_Females ~ grad_enroll$Year)
+female_lm
+# intercept = -5895502 (y-intercept)
+# year = 30126 (slope)
+
+male_lm <- lm(grad_enroll$Total_Males ~ grad_enroll$Year)
+male_lm
+# intercept = -17112153 (y-intercept)
+# year = 9069 (slope)
+# This model shows us that for both males and females, enrollment is increasing each year
+
+plot(male_lm) # data is normally distributed
+plot(female_lm) # data is normally distributed 
+
+
+### Explore model fit and significance
+
+summary(female_lm) 
+# b = -5895502
+# m = 30126
+
+# y = 30126x - 5895502 (y = salmon imports)
+# Correlation coefficeint = 0.9827 (adjusted R-squared = 0.9823)
+# p-value = < 2.2e-16
+## Our R-squared value shows that there is strong model fit (meaning that using year against enrollment is a good idea)
+
+summary(male_lm)
+
+# Plot data with regression line on graph
 
 grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
   geom_smooth(method = lm, se = F, aes(col = "Male")) +
@@ -75,9 +107,6 @@ grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males"))
   theme_classic ()
 
 grad_graph
-
-# Conduct regression model 
-
 
 
 ```
