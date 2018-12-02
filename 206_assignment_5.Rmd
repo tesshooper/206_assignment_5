@@ -91,14 +91,23 @@ summary(female_lm)
 # b = -5895502
 # m = 30126
 
-# y = 30126x - 5895502 (y = salmon imports)
+# y = 30126x - 5895502 (y = grad enrollment)
 # Correlation coefficeint = 0.9827 (adjusted R-squared = 0.9823)
 # p-value = < 2.2e-16
 ## Our R-squared value shows that there is strong model fit (meaning that using year against enrollment is a good idea)
 
 summary(male_lm)
+# b = -17112153
+# m = 9069
 
-# Plot data with regression line on graph
+# y = 9069x - 17112153 (y = grad enrollment)
+# Correlation coefficient = 0.8545 (adjusted R-squared = 0.8514)
+# p-value = < 2.2e-16
+## Our R-squared value shows that there is strong model fit (meaning that using year against enrollment is a good idea)
+
+
+
+### Plot data with regression line on graph -- FINALIZE GRAPH FOR REPORT
 
 grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
   geom_smooth(method = lm, se = F, aes(col = "Male")) +
@@ -110,13 +119,40 @@ grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males"))
 
 grad_graph
 
+### Find correlation using Pearson's R
+
+female_pr <- cor.test(grad_enroll$Year, grad_enroll$Total_Females)
+female_pr
+
+# Pearson's R = 0.9913086
+# There is a strong/positive correlation between year and total female enrollment
+
+male_pr <- cor.test(grad_enroll$Year, grad_enroll$Total_Males)
+male_pr
+
+# Pearson's R = 0.9243741
+# There is a strong/positive correlation between year and total male enrollment
+
+
+### Explain your results in words:
+
+# FEMALES: Year significantly predicts total female enrollment in graduate level university (b = -5895502, t(47) = 2669, p < 2.2e-16) with a strong positive correlation between the two (Pearson’s r = 0.99). The overall model (total female enrollment = 30126*(year) - 5895501, in count of students) explains a significant amount of variance in total female graduate enrollment (F(1,47) = 2669, p < 2.2e-16, R2 = 0.98).
+
+# FEMALES SIMPLE: The model (total female enrollment = 30126*(year) - 5895501, in count of students) explains a significant amount of variance in total female graduate enrollment (F(1,47) = 2669, p < 2.2e-16, R2 = 0.98, Pearson's r = 0.99). 
+
+
+# MALES: Year significantly predicts total male enrollment in graduate level university (b = -17112153, t(47) = 276, p < 2.2e-16) with a strong positive correlation between the two (Pearson’s r = 0.92). The overall model (total male enrollment = 9069*(year) - 17112153, in count of students) explains a significant amount of variance in total male graduate enrollment (F(1,47) = 276, p < 2.2e-16, R2 = 0.8545).
+
+# MALES SIMPLE: The model (total male enrollment = 9069*(year) - 17112153, in count of students) explains a significant amount of variance in total male graduate enrollment (F(1,47) = 276, p < 2.2e-16, R2 = 0.8545, Pearson's r = 0.92).
+
+stargazer(female_lm, male_lm, type= "text", out="test.htm")
+
+
 
 ```
 
 
 <<<<<<< HEAD
-
-
 
 
 
@@ -551,7 +587,7 @@ x2_test
 
 
 
-
+   
 
 
 
