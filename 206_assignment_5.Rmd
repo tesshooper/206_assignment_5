@@ -304,15 +304,38 @@ c. Describe in text.
 
 ```{r, echo=FALSE, message = FALSE}
 
-#Select and filter for just female PhDs in P+E Sciences, Engineering, Ed, and Humanities for 1985, 2000 + 2015
 
-fem_phds <- phd_field  %>% 
-  select(field_sex, `1985_N`)
- # select(1985_N, 1985_P, 2000_N, 2000_P, 2015_N, 2015_P)
 
+# Get the 4 fields and only females.
+
+subject_fphds <- phd_field  %>% 
+  filter(field == "physical and earth sciences"| field == "Engineering"| field == "Education"| field == "Humanities and arts") %>% 
+  filter(sex == "female") %>% 
+  mutate(field = case_when(
+    field == "physical and earth sciences" ~ "Physical Sciences",
+    field == "Engineering" ~ "Engineering",
+    field == "Education" ~ "Education",
+    field == "Humanities and arts" ~ "Arts & Humanities"
+  ))
+
+#Line graph for female phDs across the fields
+
+females_phd_graph <- ggplot(subject_fphds, aes(x=year, y=number, group=field)) +
+  geom_line(aes(color=field))+
+  geom_point(aes(color=field))+
+  labs(x = "Year", y="Frequency (Female PhD Degrees)", title = "Number of PhD Degrees Awarded to Females by Field")+
+  scale_x_continuous(breaks = c(1985, 2000, 2015))+
+  theme_classic()
+
+females_phd_graph
 
 ```
 
+```{r, echo= FALSE, echo= FALSE}
+
+
+
+```
 
 
 
@@ -559,6 +582,41 @@ B. Does median salary differ significantly between male and female PhD recipient
 
 #Explore the Data with histograms
 
+postdoc_hist_male <- ggplot(median_salary, aes(x= postdoc_male)) +
+  geom_histogram()
+
+postdoc_hist_male
+
+
+postdoc_hist_female <- ggplot(median_salary, aes(x = postdoc_female))+
+  geom_histogram()
+
+postdoc_hist_female
+
+postdoc_qq_male <- ggplot(median_salary, aes(sample = postdoc_male))+
+  geom_qq()
+
+postdoc_qq_male
+
+postdoc_qq_female <- ggplot(median_salary, aes(sample = postdoc_female)) +
+  geom_qq()
+
+postdoc_qq_female
+
+
+#no assupmtion of normality necessary, no outliers 
+
+
+#Mann-Whitney U test
+
+#H0: The medians will not be signifigantly different between male and female postdoc salaries
+
+#HA: The medians will be signifigantly different between male and female postdoc salaries 
+
+  
+  
+
+
 
 
 
@@ -571,3 +629,14 @@ B. Does median salary differ significantly between male and female PhD recipient
 ```
 
 
+
+
+
+
+
+
+
+
+##Part 4. Exploring academic salaries for professors in U.S. colleges.
+
+Develop a model describing faculty salary based on data for faculty sex, rank, years in current position, field, and number of years since doctoral degree was earned.
