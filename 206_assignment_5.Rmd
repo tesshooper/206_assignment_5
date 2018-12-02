@@ -2,7 +2,9 @@
 title: "206_Assignment_5"
 author: "Tess Hooper"
 date: "12/2/2018"
-output: html_document
+output:
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -262,17 +264,14 @@ and Humanities & Arts in 1985, 2000, and 2015.
 
 b. Describe in a graph or table.
 
-c. Describe in text. 
+c. Describe in text and statistically. 
 
 #Note: several ways to interpret this question: decide which you think is/are most interesting. state which you are asking/answering in your report.
 
 ```{r, echo=FALSE, message = FALSE}
-
-
-
 # Get the 4 fields and only females.
 
-subject_fphds <- phd_field  %>% 
+subject_fphds <- phd_field  %>%
   filter(field == "physical and earth sciences"| field == "Engineering"| field == "Education"| field == "Humanities and arts") %>% 
   filter(sex == "female") %>% 
   mutate(field = case_when(
@@ -282,22 +281,53 @@ subject_fphds <- phd_field  %>%
     field == "Humanities and arts" ~ "Arts & Humanities"
   ))
 
+subject_fphds
+
+peryear <- subject_fphds %>% 
+  
+
 #Line graph for female phDs across the fields
 
 females_phd_graph <- ggplot(subject_fphds, aes(x=year, y=number, group=field)) +
   geom_line(aes(color=field))+
   geom_point(aes(color=field))+
-  labs(x = "Year", y="Frequency (Female PhD Degrees)", title = "Number of PhD Degrees Awarded to Females by Field")+
+  labs(x = "Year", y="Frequency (Female-Awarded PhD Degrees)", title = "Number of PhD Degrees Awarded to Females by Field")+
   scale_x_continuous(breaks = c(1985, 2000, 2015))+
   theme_classic()
 
 females_phd_graph
 
+Year85 <- c(569, 198, 3491, 1392)
+Year00 <- c(1022, 838, 4179, 2672)
+Year15 <- c(1988, 2301, 3502, 2832)
+
+#85=5650
+#00=8711
+#15=10,623
+
+chi_females <- rbind(Year85, Year00, Year15)
+colnames(chi_females) <- c("Pysical Sciences", "Engineering", "Education", "Arts & Humanities")
 ```
 
-```{r, echo= FALSE, echo= FALSE}
 
 
+
+```{r}
+#1. Use chi-squared to explore changes in PhD proportions between fields over time. Are we testing ito see if there is a 
+
+#Null hypothesis (H0): There is no significant association between number of degrees awarded and field of study
+#Alternative hypothesis (Ha): There is a significant association between number of degrees awarded and field of study.
+
+x2_test <- chisq.test(chi_females)
+
+
+x2_test
+
+#interested in showing the changes in proportions of number of degrees between the categories across the 3 years. We also want to show total increase or decrease in number of PhD degrees per category.
+
+
+###p-value is <0.001. There IS a significant association between number of degrees awarded and field of study. 
+### x2(6)= 2073.3, p<0.001 
 
 ```
 
