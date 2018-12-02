@@ -45,7 +45,7 @@ Part 1: Male and female graduate enrollment (1967 - 2015)
 a. Exploratory Data Analysis
 - Summary data table with graduate enrollment for males and females, part-time/full-time, private/public universites
 - Scatter plots for full-time/part-time and gender, private/public universities and gender 
-- Regression line for males and females separately, then put together on the same graph (we need to do a regression because we need the line of best fit to find residuals in order to make sure our model fits our assumptions - residuals are any point that isn't on the line of best fit )
+- Regression line for males and females (we need to do a regression because we need the line of best fit to find residuals in order to make sure our model fits our assumptions - residuals are any point that isn't on the line of best fit )
 
 b. Question: How does enrollment in regards to gender change within these categories over time?
 
@@ -58,17 +58,27 @@ grad_enroll <- read_csv("grad_enrollment.csv")
 
 # Exploratory scatter plot for total male and female grad enrollment by year
 
-grad_scatter <- ggplot(grad_enroll, aes(x = Year, y = Total_males)) +
+grad_scatter <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
   geom_point()+
-  geom_point(aes(x = Year, y = Total_females))
+  geom_point(aes(x = Year, y = Total_Females, col = "Females"))
 
 grad_scatter
 
-# Exploratory summary table 
+# Plot data with regression line
 
-grad_table <- 
+grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males")) +
+  geom_smooth(method = lm, se = F, aes(col = "Male")) +
+  geom_smooth(aes(x = Year, y = Total_Females, col = "Female"), method = lm, se = F) +
+  ylab("Enrollment") +
+  ggtitle("Changes in Graduate University Enrollment by Sex (1967-2015)")+
+  scale_color_discrete(name = "Gender")+
+  theme_classic ()
 
-#geom_smooth (method = lm, se = F, aes (col = "Male Enrollment"))
+grad_graph
+
+# Conduct regression model 
+
+
 
 ```
 
