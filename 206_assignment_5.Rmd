@@ -304,10 +304,10 @@ c. Describe in text and statistically.
 
 #Note: several ways to interpret this question: decide which you think is/are most interesting. state which you are asking/answering in your report.
 
-```{r, echo=FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 # Get the 4 fields and only females.
 
-subject_fphds <- phd_field  %>%
+subject_fphds <- phd_field %>%
   filter(field == "physical and earth sciences"| field == "Engineering"| field == "Education"| field == "Humanities and arts") %>% 
   filter(sex == "female") %>% 
   mutate(field = case_when(
@@ -319,7 +319,7 @@ subject_fphds <- phd_field  %>%
 
 subject_fphds
 
-peryear <- subject_fphds %>% 
+peryear <- subject_fphds 
   
 
 #Line graph for female phDs across the fields
@@ -327,8 +327,9 @@ peryear <- subject_fphds %>%
 females_phd_graph <- ggplot(subject_fphds, aes(x=year, y=number, group=field)) +
   geom_line(aes(color=field))+
   geom_point(aes(color=field))+
-  labs(x = "Year", y="Frequency (Female-Awarded PhD Degrees)", title = "Number of PhD Degrees Awarded to Females by Field")+
+  labs(x = "Year", y="Frequency (Female-Awarded PhD Degrees) \n", title = "Number of PhD Degrees Awarded to Females by Field")+
   scale_x_continuous(breaks = c(1985, 2000, 2015))+
+  scale_color_discrete(name = "Field of Study")+
   theme_classic()
 
 females_phd_graph
