@@ -9,10 +9,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+####################################
+####################################
 
-
-Part 1. Load packages
-```{r}
+## Step 1. Load packages
+```{r, echo=FALSE, message=FALSE}
 
 library(tidyverse)
 library(stargazer)
@@ -26,4 +27,39 @@ library(dplyr)
 library(car)
 
 ```
+
+
+
+####################################
+####################################
+
+Part 1: Male and female graduate enrollment (1967 - 2015)
+
+# Compare trends in total graduate enrollment for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
+
+a. Exploratory Data Analysis
+- Summary data table with graduate enrollment for males and females, part-time/full-time, private/public universites
+- Histograms for full-time/part-time and gender, private/public universities and gender (and QQplots for each
+- Regression line for males and females separately, then put together on the same graph (we need to do a regression because we need the line of best fit to find residuals in order to make sure our model fits our assumptions - residuals are any point that isn't on the line of best fit )
+
+b. Question: How does enrollment in regards to gender change within these categories over time?
+
+
+```{r, echo=FALSE, message = FALSE}
+
+
+grad_enroll 
+
+
+
+
+
+```
+
+
+
+
+
+
+
 
