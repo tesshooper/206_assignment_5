@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ####################################
 ####################################
 
-## Step 1. Load packages and read in data
+## Step 1. Load packages
 ```{r, echo=FALSE, message=FALSE}
 
 library(tidyverse)
@@ -26,11 +26,6 @@ library(vcdExtra)
 library(dplyr)
 library(car)
 
-grad_enroll <- read_csv("grad_enroll.csv")
-faculty <- read_csv("faculty_salary.csv")
-med_salary <- read_csv("median_salary_doc.csv")
-phd_field <- read_csv("phd_field.csv")
-
 ```
 
 
@@ -40,7 +35,7 @@ phd_field <- read_csv("phd_field.csv")
 
 Part 1: Male and female graduate enrollment (1967 - 2015)
 
-# Compare trends in total graduate enrollment for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
+## Compare trends in total graduate enrollment for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
 
 a. Exploratory Data Analysis
 - Summary data table with graduate enrollment for males and females, part-time/full-time, private/public universites
@@ -52,16 +47,21 @@ b. Question: How does enrollment in regards to gender change within these catego
 
 ```{r, echo=FALSE, message = FALSE}
 
-
-
-
-
-
+grad_trends <- grad_enroll
 
 
 ```
 
+Part 2. Shifts in female PhD recipients by field (1985, 2000, and 2015). 
 
+a. Describe if and how there was a shift in PhDs awarded to females in Physical and Earth Sciences, Engineering, Education,
+and Humanities & Arts in 1985, 2000, and 2015. 
+
+b. Describe in a graph or table.
+
+c. Describe in text. 
+
+#Note: There are several ways that you can interpret this question. You are invited to decide which you think is/are most interesting. Just be really clear about what you are asking/answering in your report.
 
 
 
