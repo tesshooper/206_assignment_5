@@ -571,19 +571,26 @@ postdoc_qq_female
 #no assupmtion of normality necessary, no outliers 
 
 
-#Mann-Whitney U test
+#Wilcox test because data is paired
 
 #H0: The medians will not be signifigantly different between male and female postdoc salaries
 
 #HA: The medians will be signifigantly different between male and female postdoc salaries 
 
-  
-  
+postdoc_salary_wilcox <- wilcox.test(median_salary$postdoc_male, median_salary$postdoc_female, paired = TRUE)
 
+postdoc_salary_wilcox
 
+#V = 19.5, p-value = 0.8884
+#There is no signifigant difference between males and females in postdoctural positions
 
+#Employment in non-postdoc positions 
+employment_salary_wilcox <- wilcox.test(median_salary$employment_male, median_salary$employment_female, paired = TRUE)
 
+employment_salary_wilcox 
 
+#V = 101, p-value = 0.002572
+#There is a signifigant difference between males and females in non-postdoctural postions
 
 
 
@@ -604,3 +611,72 @@ postdoc_qq_female
 ##Part 4. Exploring academic salaries for professors in U.S. colleges.
 
 Develop a model describing faculty salary based on data for faculty sex, rank, years in current position, field, and number of years since doctoral degree was earned.
+
+
+```{r, include = FALSE}
+
+#exploratory graphs about prices by the other varaibles
+#Salary based on sex
+by_sex <- ggplot(faculty, aes(x = salary)) +
+  geom_density(aes(color = sex, fill = sex), alpha = 0.3) + 
+  theme_classic() +
+  scale_x_continuous(expand = c(0,0), limits = c(0,300000)) +
+  scale_y_continuous(expand = c(0,0)) +
+  labs(x = "Professor Salary", y = "Density")
+
+by_sex
+
+#Salary based on years serviced 
+by_years_service <- ggplot(faculty, aes(x = years_service, y = salary)) +
+  geom_point(aes(color = sex), alpha = 0.5, scale = "free") +
+  facet_wrap(~sex)
+
+by_years_service
+
+#Salary based on postgrad years
+
+by_postgrad_years <- ggplot(faculty, aes(x = postgrad_years, y = salary)) +
+  geom_point(aes(color = sex), alpha = 0.5, scale = "free") +
+  facet_wrap(~sex)
+
+by_postgrad_years
+
+
+#saturated linear regression model from all variables
+
+faculty_lrm1 <- lm(salary ~ rank + discipline + postgrad_years + years_service + sex, data = faculty)
+
+faculty_lrm1
+
+summary(faculty_lrm1)
+
+#reference levels: Associate Professor, discipline A (applied) (B = Theoretical), and Female
+#If everything else about the ranks are the same, I would expect an Assistant Professor to make $13000 less than an Associate Professor. And I would expect a full Professor to make $32000 more than an Associate Professor
+#If everything else about the Discipline is the same, a faculty member in Applied would make $14500 more per year than a faculty member in Theoretical. 
+#If everything else abou the sex is the same, I would expect a Male faculty member would make $4783 more than a Female faculty member. 
+#For every year after postgrad increased, the salary would increase by $535
+#The value for Service years doesn't make sense because this means: for every year working, the salary would decrease by $490
+
+plot(faculty_lrm1)
+
+#Going to make a model with out Service years to see if it makes sense. 
+
+faculty_lrm2 <- lm(salary ~ rank + discipline + postgrad_years + sex, data = faculty)
+
+faculty_lrm2
+
+summary(faculty_lrm2)
+
+#compare the models with AIC
+
+lrm1_aic <- AIC(faculty_lrm1)
+lrm2_aic <- AIC(faculty_lrm2)
+
+#lrm1 is only 4 values less than lrm2, so we can stay with lrm1 with knowing that the service years is negative
+
+#stargazer for the table to compare the models 
+#open up test.htm to copy and edit in word
+stargazer(faculty_lrm1, faculty_lrm2, type = 'html', out = "test.htm")
+
+```
+
