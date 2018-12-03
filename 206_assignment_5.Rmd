@@ -319,7 +319,7 @@ subject_fphds <- phd_field  %>%
 
 subject_fphds
 
-peryear <- subject_fphds %>% 
+peryear <- subject_fphds  
   
 
 #Line graph for female phDs across the fields
@@ -605,7 +605,7 @@ A. Does median salary differ significantly between male and female starting post
 B. Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
 
 
-```{r, , echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE}
 
 #Ways to explore the medians: Mann-Whitney U and Wilcoxen Signed Rank
 #Mann-Whiteney U is the non paired test
@@ -679,7 +679,7 @@ employment_salary_wilcox
 Develop a model describing faculty salary based on data for faculty sex, rank, years in current position, field, and number of years since doctoral degree was earned.
 
 
-```{r, include = FALSE}
+```{r}
 
 #exploratory graphs about prices by the other varaibles
 #Salary based on sex
