@@ -319,11 +319,7 @@ subject_fphds <- phd_field %>%
 
 subject_fphds
 
-<<<<<<< HEAD
-peryear <- subject_fphds  
-=======
-peryear <- subject_fphds 
->>>>>>> b207d1f043a95e428de9b2a0fef59c438ea44f83
+
   
 
 #Line graph for female phDs across the fields
@@ -610,7 +606,7 @@ A. Does median salary differ significantly between male and female starting post
 B. Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
 
 
-```{r, echo=FALSE, message=FALSE}
+```{r}
 
 #Ways to explore the medians: Mann-Whitney U and Wilcoxen Signed Rank
 #Mann-Whiteney U is the non paired test
@@ -653,7 +649,7 @@ postdoc_salary_wilcox <- wilcox.test(median_salary$postdoc_male, median_salary$p
 postdoc_salary_wilcox
 
 #V = 19.5, p-value = 0.8884
-#There is no signifigant difference between males and females in postdoctural positions
+#There is no signifigant difference between males and females in postdoctoral positions
 
 #Employment in non-postdoc positions 
 employment_salary_wilcox <- wilcox.test(median_salary$employment_male, median_salary$employment_female, paired = TRUE)
@@ -661,7 +657,7 @@ employment_salary_wilcox <- wilcox.test(median_salary$employment_male, median_sa
 employment_salary_wilcox 
 
 #V = 101, p-value = 0.002572
-#There is a signifigant difference between males and females in non-postdoctural postions
+#There is a signifigant difference between males and females in non-postdoctoral postions
 
 
 
@@ -674,6 +670,9 @@ employment_salary_wilcox
 
 
 
+There is no signifigant difference between males and females in postdoctoral positions (V = `r  postdoc_salary_wilcox$statistic` , *p* = `r round(postdoc_salary_wilcox$p.value, 3)` , $\alpha$ = 0.05). 
+
+There is a signifigant difference between males and females in non-postdoctoral employment positions (V = `r employment_salary_wilcox$statistic` , *p* = `r round(employment_salary_wilcox$p.value, 3)` , $\alpha$ = 0.05). 
 
 
 
@@ -748,6 +747,7 @@ lrm2_aic <- AIC(faculty_lrm2)
 #stargazer for the table to compare the models 
 #open up test.htm to copy and edit in word
 stargazer(faculty_lrm1, faculty_lrm2, type = 'html', out = "test.htm")
+
 
 ```
 
