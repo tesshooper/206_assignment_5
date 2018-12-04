@@ -119,6 +119,8 @@ grad_graph <- ggplot(grad_enroll, aes(x = Year, y = Total_Males, col = "Males"))
 
 grad_graph
 
+
+
 ### Find correlation using Pearson's R
 
 female_pr <- cor.test(grad_enroll$Year, grad_enroll$Total_Females)
@@ -319,7 +321,7 @@ subject_fphds <- phd_field  %>%
 
 subject_fphds
 
-peryear <- subject_fphds %>% 
+peryear <- subject_fphds
   
 
 #Line graph for female phDs across the fields
