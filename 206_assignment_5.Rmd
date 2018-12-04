@@ -306,10 +306,10 @@ c. Describe in text and statistically.
 
 #Note: several ways to interpret this question: decide which you think is/are most interesting. state which you are asking/answering in your report.
 
-```{r, echo=FALSE, message = FALSE}
+```{r, echo = FALSE, message = FALSE}
 # Get the 4 fields and only females.
 
-subject_fphds <- phd_field  %>%
+subject_fphds <- phd_field %>%
   filter(field == "physical and earth sciences"| field == "Engineering"| field == "Education"| field == "Humanities and arts") %>% 
   filter(sex == "female") %>% 
   mutate(field = case_when(
@@ -321,7 +321,11 @@ subject_fphds <- phd_field  %>%
 
 subject_fphds
 
+<<<<<<< HEAD
 peryear <- subject_fphds
+=======
+
+>>>>>>> cdf3d4d90bd1cf9a0987d55955ca265c024bc63e
   
 
 #Line graph for female phDs across the fields
@@ -329,8 +333,9 @@ peryear <- subject_fphds
 females_phd_graph <- ggplot(subject_fphds, aes(x=year, y=number, group=field)) +
   geom_line(aes(color=field))+
   geom_point(aes(color=field))+
-  labs(x = "Year", y="Frequency (Female-Awarded PhD Degrees)", title = "Number of PhD Degrees Awarded to Females by Field")+
+  labs(x = "Year", y="Frequency (Female-Awarded PhD Degrees) \n", title = "Number of PhD Degrees Awarded to Females by Field")+
   scale_x_continuous(breaks = c(1985, 2000, 2015))+
+  scale_color_discrete(name = "Field of Study")+
   theme_classic()
 
 females_phd_graph
@@ -607,7 +612,7 @@ A. Does median salary differ significantly between male and female starting post
 B. Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
 
 
-```{r, , echo=FALSE, message=FALSE}
+```{r}
 
 #Ways to explore the medians: Mann-Whitney U and Wilcoxen Signed Rank
 #Mann-Whiteney U is the non paired test
@@ -650,7 +655,7 @@ postdoc_salary_wilcox <- wilcox.test(median_salary$postdoc_male, median_salary$p
 postdoc_salary_wilcox
 
 #V = 19.5, p-value = 0.8884
-#There is no signifigant difference between males and females in postdoctural positions
+#There is no signifigant difference between males and females in postdoctoral positions
 
 #Employment in non-postdoc positions 
 employment_salary_wilcox <- wilcox.test(median_salary$employment_male, median_salary$employment_female, paired = TRUE)
@@ -658,7 +663,7 @@ employment_salary_wilcox <- wilcox.test(median_salary$employment_male, median_sa
 employment_salary_wilcox 
 
 #V = 101, p-value = 0.002572
-#There is a signifigant difference between males and females in non-postdoctural postions
+#There is a signifigant difference between males and females in non-postdoctoral postions
 
 
 
@@ -671,6 +676,9 @@ employment_salary_wilcox
 
 
 
+There is no signifigant difference between males and females in postdoctoral positions (V = `r  postdoc_salary_wilcox$statistic` , *p* = `r round(postdoc_salary_wilcox$p.value, 3)` , $\alpha$ = 0.05). 
+
+There is a signifigant difference between males and females in non-postdoctoral employment positions (V = `r employment_salary_wilcox$statistic` , *p* = `r round(employment_salary_wilcox$p.value, 3)` , $\alpha$ = 0.05). 
 
 
 
@@ -681,7 +689,7 @@ employment_salary_wilcox
 Develop a model describing faculty salary based on data for faculty sex, rank, years in current position, field, and number of years since doctoral degree was earned.
 
 
-```{r, include = FALSE}
+```{r}
 
 #exploratory graphs about prices by the other varaibles
 #Salary based on sex
@@ -745,6 +753,7 @@ lrm2_aic <- AIC(faculty_lrm2)
 #stargazer for the table to compare the models 
 #open up test.htm to copy and edit in word
 stargazer(faculty_lrm1, faculty_lrm2, type = 'html', out = "test.htm")
+
 
 ```
 
